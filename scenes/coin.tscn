@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://k1tlbs82l16e"]
+
+[ext_resource type="Texture2D" uid="uid://bpcy8gvbemqs8" path="res://Assets/Coin/coin_front.png" id="1_8p1gb"]
+[ext_resource type="Texture2D" uid="uid://cqn6rbvl4m8r" path="res://Assets/Coin/coin_side.png" id="2_u2w2v"]
+[ext_resource type="Script" path="res://scripts/Coin.gd" id="3_b6ib1"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f5i3b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_8p1gb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_u2w2v")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_21joh"]
+size = Vector2(13, 13)
+
+[node name="StaticBody2D" type="StaticBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-0.5, 0.5)
+scale = Vector2(0.833333, 0.833333)
+sprite_frames = SubResource("SpriteFrames_f5i3b")
+autoplay = "default"
+
+[node name="Area2D" type="Area2D" parent="." groups=["coin"]]
+script = ExtResource("3_b6ib1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_21joh")
+
+[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]

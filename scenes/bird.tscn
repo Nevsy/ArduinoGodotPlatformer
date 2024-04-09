@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://dlksp7nhcfw1e"]
+
+[ext_resource type="Texture2D" uid="uid://c65ux2bp3fhl8" path="res://Assets/Bird/down.png" id="1_d04hs"]
+[ext_resource type="Texture2D" uid="uid://cjrrdpsfi3kbr" path="res://Assets/Bird/mid.png" id="2_id5vo"]
+[ext_resource type="Texture2D" uid="uid://3sm7m612dsoa" path="res://Assets/Bird/up.png" id="3_av6jb"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qj0eg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_d04hs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_id5vo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_av6jb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xifbn"]
+size = Vector2(18, 11)
+
+[node name="Bird" type="CharacterBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(12, 12)
+sprite_frames = SubResource("SpriteFrames_qj0eg")
+autoplay = "default"
+
+[node name="Area2D" type="Area2D" parent="." groups=["enemy"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(12, 12.5)
+shape = SubResource("RectangleShape2D_xifbn")

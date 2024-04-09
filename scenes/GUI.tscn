@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgftex238yyf6"]
+
+[ext_resource type="Script" path="res://scripts/GUI.gd" id="1_3fth7"]
+
+[node name="HeartsContainer" type="HBoxContainer"]
+texture_filter = 1
+layout_direction = 3
+theme_override_constants/separation = 64
+script = ExtResource("1_3fth7")
