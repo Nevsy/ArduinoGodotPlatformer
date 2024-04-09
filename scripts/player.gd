@@ -9,7 +9,7 @@ extends CharacterBody2D
 @export var wallPushBack = 50
 @export var maxFallSpeed = 250
 @export var wallSlidingGravity = 30
-@export var SpeedCoeficient = .7
+@export var SpeedCoefficient = .6
 
 signal healthChanged
 
@@ -18,6 +18,8 @@ var potentioValue : int
 var correctionbit : int
 
 var speed : int
+var absSpeed : int
+var animationSpeed = 1
 var wallJumpBuffer = 0
 var wallJumpBufferValue = 15
 var isWallSliding = false
@@ -30,6 +32,7 @@ var hitCoolDownTime = 2.0
 var score = 0
 
 func addButtonValue(serialInt): # Activated from Arduino.cs
+	# LICHTKNOPJE = OUTPUT (op lampje stappen?), THERMOMETER -> IJS
 	potentioValue = serialInt % 1024
 	buttonValue = (serialInt >> 10) & 1  # Extracting the 11th bit
 	correctionbit = (serialInt >> 11) & 1 # Extracting the 12th bit
@@ -63,27 +66,31 @@ func gravityFunc():
 			velocity.y *= .9
 			if velocity.y > maxFallSpeed:
 				velocity.y = maxFallSpeed
-		else:
+		elif velocity.y < 0:
 			$AnimatedSprite2D.play("Jump")
 
 func horizontalMovement():
 	if correctionbit != 1: return
-	if(potentioValue > 300 and potentioValue < 724):
+	if potentioValue > 300 and potentioValue < 724:
 		speed = 0
 	else:
 		speed = snappedf(potentioValue / 2, 1) - 256
+
 	if wallJumpBuffer <= 0:
-		velocity.x = speed * SpeedCoeficient
-	else: 
+		velocity.x = speed * SpeedCoefficient
+	else:
 		wallJumpBuffer -= 1
-		
+	
 	# for the animation
+	absSpeed = abs(speed)
+	animationSpeed = absSpeed / 100
+	
 	if speed > 0:
 		$AnimatedSprite2D.flip_h = true
-		$AnimatedSprite2D.play("Run")
+		$AnimatedSprite2D.play("Run", animationSpeed)
 	elif speed < 0:
 		$AnimatedSprite2D.flip_h = false
-		$AnimatedSprite2D.play("Run")
+		$AnimatedSprite2D.play("Run", animationSpeed)
 	else:
 		$AnimatedSprite2D.play("Idle")
 	
@@ -94,12 +101,10 @@ func jump():
 		elif is_on_wall():
 			if velocity.x > 0:
 				velocity.x = -wallPushBack
-				velocity.y = -JUMPFORCE
-				wallJumpBuffer = wallJumpBufferValue
 			elif velocity.x < 0:
 				velocity.x = wallPushBack
-				velocity.y = -JUMPFORCE
-				wallJumpBuffer = wallJumpBufferValue
+			velocity.y = -JUMPFORCE
+			wallJumpBuffer = wallJumpBufferValue
 
 func wallSlide(delta):
 	if is_on_wall() and !is_on_floor():
@@ -135,7 +140,6 @@ func loseHeart():
 		healthChanged.emit(0)
 		GameOver.visible = true
 		get_tree().paused = true
-		hitCoolDown = true # Activate cooldown
 	else:
 		hearts -= 1
 		healthChanged.emit(hearts)

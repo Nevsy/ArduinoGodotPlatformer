@@ -26,7 +26,6 @@ public partial class Arduino : Node2D
 	{
 		message = serialPort.ReadExisting(); // Read data from serial port (readExisting > ReadLine (super laggy!!!) for single chars), Int32.Parse(serialPort.ReadLine()); for ints
 		//message = serialPort.ReadLine(); LAGGY!!!
-		//if (!message.Contains("\r\n")) return;
 		foreach(char c in message){
 			if(c.Equals('\n')){
 				serialInt = int.Parse(buff);
