@@ -4,6 +4,8 @@ extends CharacterBody2D
 @onready var Coin1 = $"../Coin/AnimatedSprite2D"
 @onready var Score = $"../CanvasLayer3/Score"
 
+@onready var arduinoCS = $".."
+
 @export var gravity = 40
 @export var JUMPFORCE = 700
 @export var wallPushBack = 50
@@ -52,6 +54,7 @@ func _physics_process(delta):
 
 func _ready():
 	GameOver.visible = false
+	arduinoCS.healthLedUpdate(3)
 
 func gravityFunc():
 	if !is_on_floor():
@@ -138,11 +141,13 @@ func loseHeart():
 	if hearts <= 1:
 		hearts == 0
 		healthChanged.emit(0)
+		arduinoCS.healthLedUpdate(0)
 		GameOver.visible = true
 		get_tree().paused = true
 	else:
 		hearts -= 1
 		healthChanged.emit(hearts)
+		arduinoCS.healthLedUpdate(hearts)
 		hitCoolDown = true # Activate cooldown
 
 func GetCoin():

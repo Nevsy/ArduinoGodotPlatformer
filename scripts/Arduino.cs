@@ -6,11 +6,12 @@ public partial class Arduino : Node2D
 {
 	SerialPort serialPort;
 	CharacterBody2D gdScript;
-	//RichTextLabel text;
 
 	string message;
 	string buff;
 	int serialInt;
+	
+	string stringWereGoingToSend;
 	
 	public override void _Ready()
 	{
@@ -26,6 +27,7 @@ public partial class Arduino : Node2D
 	{
 		message = serialPort.ReadExisting(); // Read data from serial port (readExisting > ReadLine (super laggy!!!) for single chars), Int32.Parse(serialPort.ReadLine()); for ints
 		//message = serialPort.ReadLine(); LAGGY!!!
+		if (message[0].Equals('a')) return;
 		foreach(char c in message){
 			if(c.Equals('\n')){
 				serialInt = int.Parse(buff);
@@ -36,5 +38,15 @@ public partial class Arduino : Node2D
 			buff += c;
 		}
 		//text.Text = "1"; 
+	}
+	
+	public void healthLedUpdate(int heartsLeft){
+		stringWereGoingToSend = "";
+		for(int i = 0; i < heartsLeft; i++){
+			stringWereGoingToSend += 'a';
+		}
+		stringWereGoingToSend += "///";
+		GD.Print(stringWereGoingToSend);
+		serialPort.Write(stringWereGoingToSend);
 	}
 }
