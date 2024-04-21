@@ -8,5 +8,5 @@ func _ready():
 	heartsContainer.updateHearts(player.hearts)
 	player.healthChanged.connect(heartsContainer.updateHearts)
 
-func _process(delta):
+func _process(_delta):
 	pass

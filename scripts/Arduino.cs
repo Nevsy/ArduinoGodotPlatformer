@@ -2,6 +2,8 @@ using Godot;
 using System;
 using System.IO.Ports;
 
+using System.Threading;
+
 public partial class Arduino : Node2D
 {
 	SerialPort serialPort;
@@ -13,11 +15,15 @@ public partial class Arduino : Node2D
 	
 	string stringWereGoingToSend;
 	
+	bool serialPortInitialized = false;
+	
 	public override void _Ready()
 	{
-		//text = GetNode<RichTextLabel>("RichTextLabel");
 		serialPort = new SerialPort("COM6", 9600);
 		serialPort.Open();
+		serialPortInitialized = true;
+		serialPort.Write("c"); //init haerts to 3
+		
 		message = serialPort.ReadExisting();
 		
 		gdScript = GetNode<CharacterBody2D>("Player");
@@ -37,16 +43,35 @@ public partial class Arduino : Node2D
 			}
 			buff += c;
 		}
-		//text.Text = "1"; 
 	}
 	
 	public void healthLedUpdate(int heartsLeft){
-		stringWereGoingToSend = "";
-		for(int i = 0; i < heartsLeft; i++){
-			stringWereGoingToSend += 'a';
+		// This method is not working, why?
+		
+		//stringWereGoingToSend = "";
+		//for(int i = 0; i < heartsLeft; i++){
+			//stringWereGoingToSend += 'a';
+		//}
+		//stringWereGoingToSend += "///";
+		//GD.Print(stringWereGoingToSend);
+		//serialPort.Write(stringWereGoingToSend);
+		
+		switch (heartsLeft) {
+			case 3:
+				serialPort.Write("c");
+				break;
+			case 2:
+				serialPort.Write("b");
+				break;
+			case 1:
+				serialPort.Write("a");
+				break;
+			case 0:
+				serialPort.Write("/");
+				break;
+			default:
+				GD.Print("INPUT ERROR");
+				break;
 		}
-		stringWereGoingToSend += "///";
-		GD.Print(stringWereGoingToSend);
-		serialPort.Write(stringWereGoingToSend);
 	}
 }

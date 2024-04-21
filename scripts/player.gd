@@ -34,7 +34,7 @@ var hitCoolDownTime = 2.0
 var score = 0
 
 func addButtonValue(serialInt): # Activated from Arduino.cs
-	# LICHTKNOPJE = OUTPUT (op lampje stappen?), THERMOMETER -> IJS
+	# THERMOMETER -> IJS
 	potentioValue = serialInt % 1024
 	buttonValue = (serialInt >> 10) & 1  # Extracting the 11th bit
 	correctionbit = (serialInt >> 11) & 1 # Extracting the 12th bit
@@ -54,7 +54,6 @@ func _physics_process(delta):
 
 func _ready():
 	GameOver.visible = false
-	arduinoCS.healthLedUpdate(3)
 
 func gravityFunc():
 	if !is_on_floor():

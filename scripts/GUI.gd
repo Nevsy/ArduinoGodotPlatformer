@@ -5,11 +5,11 @@ extends HBoxContainer
 func _ready():
 	pass
 
-func _process(delta):
+func _process(_delta):
 	pass
 	
-func setMaxHearts(max: int):
-	for i in range(max):
+func setMaxHearts(maxHearts: int):
+	for i in range(maxHearts):
 		var heart = HeartGuiClass.instantiate()
 		add_child(heart)
 		
