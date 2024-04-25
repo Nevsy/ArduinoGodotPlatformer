@@ -133,6 +133,9 @@ func checkHitCoolDown(delta):
 func _on_area_2d_area_entered(area): # activated whenever an area collides with player
 	if area.is_in_group("enemy") && !hitCoolDown:
 		loseHeart()
+	elif area.is_in_group("spikes") && !hitCoolDown:
+		print("hit spikes")
+		loseHeart()
 	#elif area.is_in_group("coin"):
 		#pickupCoin()
 
