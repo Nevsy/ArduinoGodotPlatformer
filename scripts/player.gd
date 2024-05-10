@@ -133,9 +133,15 @@ func checkHitCoolDown(delta):
 func _on_area_2d_area_entered(area): # activated whenever an area collides with player
 	if area.is_in_group("enemy") && !hitCoolDown:
 		loseHeart()
-	elif area.is_in_group("spikes") && !hitCoolDown:
-		print("hit spikes")
+	elif area.is_in_group("spike") && !hitCoolDown:
 		loseHeart()
+	elif area.is_in_group("void"):
+		hearts == 0
+		healthChanged.emit(0)
+		arduinoCS.healthLedUpdate(0)
+		
+		GameOver.visible = true
+		get_tree().paused = true
 	#elif area.is_in_group("coin"):
 		#pickupCoin()
 
