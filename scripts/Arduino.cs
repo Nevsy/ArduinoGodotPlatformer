@@ -19,7 +19,7 @@ public partial class Arduino : Node2D
 	
 	public override void _Ready()
 	{
-		serialPort = new SerialPort("COM6", 9600);
+		serialPort = new SerialPort("COM3", 9600);
 		serialPort.Open();
 		serialPortInitialized = true;
 		serialPort.Write("c"); //init haerts to 3
