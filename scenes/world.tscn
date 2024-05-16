@@ -219,16 +219,16 @@ position = Vector2(330, 255)
 script = ExtResource("8_klsiu")
 
 [node name="Coin" parent="." instance=ExtResource("9_sksox")]
-position = Vector2(1880, -138)
+position = Vector2(1880, -136)
 
 [node name="Coin2" parent="." instance=ExtResource("9_sksox")]
 position = Vector2(590, 307)
 
 [node name="Coin3" parent="." instance=ExtResource("9_sksox")]
-position = Vector2(1944, 7)
+position = Vector2(1944, 8)
 
 [node name="Coin4" parent="." instance=ExtResource("9_sksox")]
-position = Vector2(1313, 281)
+position = Vector2(1306, 294)
 
 [node name="Coin5" parent="." instance=ExtResource("9_sksox")]
 position = Vector2(1313, -170)
@@ -240,7 +240,7 @@ position = Vector2(2348, -315)
 position = Vector2(1649, -547)
 
 [node name="Coin8" parent="." instance=ExtResource("9_sksox")]
-position = Vector2(1601, -765)
+position = Vector2(1601, -764)
 
 [node name="Coin9" parent="." instance=ExtResource("9_sksox")]
 position = Vector2(2529, -566)
