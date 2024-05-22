@@ -23,7 +23,8 @@ var speed : int
 var absSpeed : int
 var animationSpeed = 1
 var wallJumpBuffer = 0
-var wallJumpBufferValue = 15
+var wallJumpBufferValue = 50
+# var wallJumpBufferValue = 15
 var isWallSliding = false
 
 var hearts = 3
