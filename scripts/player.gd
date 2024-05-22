@@ -148,7 +148,7 @@ func _on_area_2d_area_entered(area): # activated whenever an area collides with 
 
 func loseHeart():
 	if hearts <= 1:
-		hearts == 0
+		hearts = 0
 		healthChanged.emit(0)
 		arduinoCS.healthLedUpdate(0)
 		GameOver.visible = true
