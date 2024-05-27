@@ -3,8 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://d32fskisl4sju" path="res://Assets/tilemap.png" id="1_2fpek"]
 [ext_resource type="Script" path="res://scripts/Coin.gd" id="3_r4fa4"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_87ofm"]
-size = Vector2(18, 7)
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_8c5nl"]
+points = PackedVector2Array(2.6, -5.35, 5.47, -5.38, 8.7, 3.305, -9, 3.24, -5.485, -5.27, -2.755, -5.215, 0.005, -0.61)
 
 [node name="StaticBody2D" type="StaticBody2D"]
 
@@ -20,6 +20,6 @@ script = ExtResource("3_r4fa4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 5.5)
-shape = SubResource("RectangleShape2D_87ofm")
+shape = SubResource("ConvexPolygonShape2D_8c5nl")
 
 [connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]

@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @onready var GameOver = $"../CanvasLayer2/GameOver"
+@onready var GameWon = $"../CanvasLayer2/GameWon"
 @onready var Coin1 = $"../Coin/AnimatedSprite2D"
 @onready var Score = $"../CanvasLayer3/Score"
 
@@ -23,8 +24,7 @@ var speed : int
 var absSpeed : int
 var animationSpeed = 1
 var wallJumpBuffer = 0
-var wallJumpBufferValue = 50
-# var wallJumpBufferValue = 15
+var wallJumpBufferValue = 20
 var isWallSliding = false
 
 var hearts = 3
@@ -77,15 +77,18 @@ func horizontalMovement():
 	if potentioValue > 300 and potentioValue < 724:
 		speed = 0
 	else:
+		@warning_ignore("integer_division", "narrowing_conversion")
 		speed = snappedf(potentioValue / 2, 1) - 256
 
 	if wallJumpBuffer <= 0:
 		velocity.x = speed * SpeedCoefficient
 	else:
+		velocity.x += speed / 50
 		wallJumpBuffer -= 1
 	
 	# for the animation
 	absSpeed = abs(speed)
+	@warning_ignore("integer_division")
 	animationSpeed = absSpeed / 100
 	
 	if speed > 0:
@@ -101,16 +104,16 @@ func jump():
 	if buttonValue == 1:
 		if is_on_floor():
 			velocity.y = -JUMPFORCE
-		elif is_on_wall():
-			if velocity.x > 0:
+		elif is_on_wall_only():
+			if speed > 0: # or velocity.x
 				velocity.x = -wallPushBack
-			elif velocity.x < 0:
+			elif speed < 0:
 				velocity.x = wallPushBack
 			velocity.y = -JUMPFORCE
 			wallJumpBuffer = wallJumpBufferValue
 
 func wallSlide(delta):
-	if is_on_wall() and !is_on_floor():
+	if is_on_wall_only():
 		if velocity.x != 0:
 			isWallSliding = true
 		else:
@@ -137,11 +140,14 @@ func _on_area_2d_area_entered(area): # activated whenever an area collides with 
 	elif area.is_in_group("spike") && !hitCoolDown:
 		loseHeart()
 	elif area.is_in_group("void"):
-		hearts == 0
-		healthChanged.emit(0)
-		arduinoCS.healthLedUpdate(0)
+		hearts = 0
+		healthChanged.emit(hearts)
+		arduinoCS.healthLedUpdate(hearts)
 		
 		GameOver.visible = true
+		get_tree().paused = true
+	elif area.is_in_group("flag"):
+		GameWon.visible = true
 		get_tree().paused = true
 	#elif area.is_in_group("coin"):
 		#pickupCoin()
