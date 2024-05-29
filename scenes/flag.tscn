@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=3 uid="uid://pjehdnvhqwu4"]
+
+[ext_resource type="Texture2D" uid="uid://d32fskisl4sju" path="res://Assets/tilemap.png" id="1_v7h8v"]
+[ext_resource type="Script" path="res://scripts/Coin.gd" id="3_cmgf8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ombgb"]
+atlas = ExtResource("1_v7h8v")
+region = Rect2(209, 95, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nxqv5"]
+atlas = ExtResource("1_v7h8v")
+region = Rect2(228, 95, 18, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f5i3b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ombgb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nxqv5")
+}],
+"loop": true,
+"name": &"FlagAnim",
+"speed": 4.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_21joh"]
+size = Vector2(13, 38)
+
+[node name="StaticBody2D" type="StaticBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-5.96046e-08, 2.86102e-06)
+scale = Vector2(0.722222, 0.722222)
+sprite_frames = SubResource("SpriteFrames_f5i3b")
+animation = &"FlagAnim"
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-0.055, 24)
+scale = Vector2(0.722, 0.722)
+texture = ExtResource("1_v7h8v")
+hframes = 20
+vframes = 9
+frame = 131
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-0.057, 11.759)
+scale = Vector2(0.722, 0.722)
+texture = ExtResource("1_v7h8v")
+hframes = 20
+vframes = 9
+frame = 131
+
+[node name="Area2D" type="Area2D" parent="." groups=["flag"]]
+script = ExtResource("3_cmgf8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 12)
+shape = SubResource("RectangleShape2D_21joh")
+
+[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
