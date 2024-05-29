@@ -1,9 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://c213aw0000bdb"]
+[gd_scene load_steps=18 format=3 uid="uid://c213aw0000bdb"]
 
 [ext_resource type="Script" path="res://scripts/Arduino.cs" id="1_0e543"]
 [ext_resource type="PackedScene" uid="uid://cqtnlnnul3lvs" path="res://scenes/player.tscn" id="1_3gnfb"]
 [ext_resource type="Script" path="res://scripts/Canvas.gd" id="1_aav76"]
 [ext_resource type="TileSet" uid="uid://brwyynsao7sl" path="res://Assets/backgrounds.tres" id="2_8qgsx"]
+[ext_resource type="AudioStream" uid="uid://c8mkuliblscdo" path="res://Assets/Night-Shade.mp3" id="2_wxolg"]
 [ext_resource type="TileSet" uid="uid://bbl670ni8p5ym" path="res://Assets/tiles.tres" id="3_50jak"]
 [ext_resource type="PackedScene" uid="uid://pjehdnvhqwu4" path="res://scenes/flag.tscn" id="5_ciabq"]
 [ext_resource type="PackedScene" uid="uid://bgftex238yyf6" path="res://scenes/GUI.tscn" id="5_fl1qe"]
@@ -30,10 +31,15 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xroou"]
-size = Vector2(4159.5, 20)
+size = Vector2(4310, 12)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_0e543")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_wxolg")
+volume_db = -25.49
+autoplay = true
 
 [node name="Sky" type="TileMap" parent="."]
 texture_filter = 1
@@ -334,5 +340,5 @@ script = ExtResource("7_htxkb")
 [node name="Area2D" type="Area2D" parent="." groups=["void"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(2062.25, 574)
+position = Vector2(1987, 570)
 shape = SubResource("RectangleShape2D_xroou")
